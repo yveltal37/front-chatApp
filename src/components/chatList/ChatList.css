@@ -1,0 +1,15 @@
+.chatList {
+  margin-top: 20px;
+}
+
+.chatList ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.chatList li {
+  padding: 10px;
+  background: #f5f5f5;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}

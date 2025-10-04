@@ -1,0 +1,12 @@
+.homePage {
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 91vh;
+  width: 100vw;
+}
+
+li{
+    color: #333;
+    width: 30rem;
+    float:inline-start;
+  }
