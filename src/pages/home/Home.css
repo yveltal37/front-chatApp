@@ -1,12 +1,21 @@
 .homePage {
   font-family: Arial, sans-serif;
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   height: 91vh;
   width: 100vw;
 }
 
 li{
-    color: #333;
-    width: 30rem;
-    float:inline-start;
-  }
+  color: #333;
+  width: 30rem;
+}
+
+.searchChat input{
+  margin: 0.5rem;
+  color: #333;
+  width: 20rem;
+  height: 1.5rem;
+  border-radius: 10px;
+}
