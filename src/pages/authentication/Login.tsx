@@ -5,7 +5,7 @@ import './Auth.css';
 import { login } from "../../services/authentication-api";
 
 export default function Login() {
-  const { setIsLoggedIn} = useContext(LoggedInContext);
+  const { setIsLoggedIn, setUser } = useContext(LoggedInContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -14,8 +14,10 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await login({ username, password });
-      console.log("Logged in:", res.data);
+      console.log("Logged in:", res);
       setIsLoggedIn(true);
+      setUser({ id: res.id, name: res.username });
+      console.log("logged in",res.id);
       navigate("/home");
     } catch (err) {
       console.error(err);

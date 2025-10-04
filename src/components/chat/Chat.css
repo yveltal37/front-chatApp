@@ -1,0 +1,35 @@
+.side-chat {
+  position: fixed;
+  right: 0;
+  top: 6.2vh;
+  height: 91vh;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 1rem;
+  box-sizing: border-box;
+  z-index: 1000;
+  background-color: #000;
+}
+
+.plus-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #0074d9;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.plus-button:hover {
+  background-color: #005fa3;
+}
+
+@media (max-width: 768px) {
+  .side-chat {
+    width: 100%;
+  }
+}

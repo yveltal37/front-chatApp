@@ -5,7 +5,7 @@ import './Auth.css';
 import { signup } from "../../services/authentication-api";
 
 export default function Signup() {
-  const { setIsLoggedIn} = useContext(LoggedInContext);
+  const { setIsLoggedIn, setUser } = useContext(LoggedInContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,10 +14,11 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log("Signed up:", { username: username, email:email, password:password });
       const res = await signup({ username, email, password });
+      console.log("Signed up:", { username: username, email:email, password:password });
       setIsLoggedIn(true);
-      console.log("Signed up:", res.data);
+      setUser({ id: res.id, name: res.username });
+      console.log("Signed up:", res.id);
       navigate("/home");
     } catch (err) {
       console.error(err);

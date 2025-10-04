@@ -1,5 +1,7 @@
 import ChatList from "../../components/chatList/ChatList";
+import Chat from "../../components/chat/Chat";
 import "./Home.css";
+import { ChatProvider } from "../../Hooks/ChatContext";
 
 export default function Home() {
 
@@ -8,7 +10,12 @@ export default function Home() {
       <div className="searchChat">
         <input type="text" placeholder="Search..."/>
       </div>
-      <ChatList />
+      <h1>CHATS</h1>
+      <ChatProvider>
+        <ChatList />
+        <Chat />
+      </ChatProvider>
+
     </div>
   );
 }

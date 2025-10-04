@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import "./NavBar.css";
 
 function NavBar(){
-  const {isLoggedIn, setIsLoggedIn} = useContext(LoggedInContext);
+  const {isLoggedIn, setIsLoggedIn, setUser} = useContext(LoggedInContext);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUser(null);
   };
 
   return (
@@ -17,7 +18,6 @@ function NavBar(){
         {isLoggedIn ? (
           <>
             <Link to={"/login"} onClick={handleLogout}>Logout</Link>
-            <Link to="/home">Home</Link>
           </>
         ) : (
           <>
