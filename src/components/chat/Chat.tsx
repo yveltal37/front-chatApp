@@ -1,7 +1,7 @@
 import "./Chat.css";
 import { ChatContext } from "../../Hooks/ChatContext";
 import { useContext, useState } from "react";
-import { addUser } from "../../services/chats";
+import { addUser } from "../../services/chats-service";
 
 
 function Chat() {

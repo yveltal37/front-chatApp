@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { LoggedInContext } from "../../Hooks/IsLogin";
-import {  getChatsForUser, createChat  } from "../../services/chats";
-import type { Chat } from "../../services/chats";
+import {  getChatsForUser, createChat  } from "../../services/chats-service";
+import type { Chat } from "../../services/chats-service";
 import "./ChatList.css";
 import { ChatContext } from "../../Hooks/ChatContext";
 
