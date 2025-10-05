@@ -3,9 +3,11 @@ import { LoggedInContext } from "../../Hooks/IsLogin";
 import {  getChatsForUser, createChat  } from "../../services/chats";
 import type { Chat } from "../../services/chats";
 import "./ChatList.css";
+import { ChatContext } from "../../Hooks/ChatContext";
 
 function ChatList() {
   const { user } = useContext(LoggedInContext);
+  const { setConnectedChat } = useContext(ChatContext);
   const [chats, setChats] = useState<Chat[]>([]);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
@@ -26,7 +28,7 @@ function ChatList() {
   const handleCreateGroup = async () => {
     try {
       if (!groupName.trim()) return alert("Please enter a group name");
-      await createChat({ name: groupName, userIds: [user.id], isGroup: true });
+      await createChat({ name: groupName, userId: user.id, isGroup: true });
       setShowCreateGroup(false);
       setGroupName("");
       const response = await getChatsForUser(user.id);
@@ -36,6 +38,9 @@ function ChatList() {
     }
   };
 
+  const handleChatClick = (chat: { id: number; name: string }) => {
+    setConnectedChat(chat);
+  };
 
   return (
     <div className="chatList">
@@ -58,7 +63,7 @@ function ChatList() {
       <ul>
         {chats.length > 0 ? (
           chats.map(chat => (
-            <li key={chat.id}>
+            <li key={chat.id} onClick={() => handleChatClick({id: chat.id, name: chat.name})}>
               {chat.isGroup ? "Group: " : "Private: "} {chat.name}
             </li>
           ))

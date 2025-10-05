@@ -12,9 +12,14 @@ export const getChatsForUser = async (userId: number) => {
   return axios.get(`${API_URL}/${userId}`);
 };
 
-export const createChat = async (data: { name: string;
-  userIds: number[];
+export const createChat = async (data: {
+  name: string;
+  userId: number;
   isGroup?: boolean;
 }) => {
   return axios.post(API_URL, data);
+};
+
+export const addUser = async (chatId: number, username: string) => {
+  return axios.patch(`${API_URL}/${chatId}/user`, { username });
 };
