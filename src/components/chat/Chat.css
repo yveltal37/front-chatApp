@@ -1,18 +1,25 @@
 .chat {
   position: fixed;
   right: 0;
-  top: 6.2vh;
-  height: 91vh;
+  height: 91.4vh;
   width: 50%;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 1rem;
+  flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
-  z-index: 1000;
   background-color: #000;
+  z-index: 1000;
 }
 
+.chat header {
+  display: flex;
+  gap: 0.5rem;
+  top: 0;
+  left: 0;
+  padding: 0.5rem;
+}
+
+.close-button,
 .add-button {
   width: 40px;
   height: 40px;
@@ -20,11 +27,12 @@
   background-color: #0074d9;
   color: white;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
 }
 
-.plus-button:hover {
+.close-button:hover,
+.add-button:hover {
   background-color: #005fa3;
 }
 

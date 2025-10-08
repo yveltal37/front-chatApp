@@ -1,0 +1,66 @@
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow-y: auto;
+  height: 70vh;
+  box-sizing: border-box;
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  line-height: 1.2;
+  font-size: 0.95rem;
+  display: inline-block;
+}
+
+.my-message {
+  align-self: flex-start;
+  background-color: #0074d9;
+  border-bottom-left-radius: 0;
+}
+
+.other-message {
+  align-self: flex-end;
+  background-color: #222;
+  border-bottom-right-radius: 0;
+}
+
+.message strong {
+  display: block;
+}
+
+.message-input-form {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border-top: 1px solid #333;
+}
+
+.message-input-form input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #555;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.message-input-form button {
+  background-color: #0074d9;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.message-input-form button:hover {
+  background-color: #005fa3;
+}
+.message-input-form button:disabled {
+  cursor: not-allowed;
+}
