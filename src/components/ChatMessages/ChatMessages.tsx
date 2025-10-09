@@ -2,18 +2,41 @@ import "./ChatMessages.css";
 import { LoggedInContext } from "../../Hooks/IsLogin";
 import { ChatContext } from "../../Hooks/ChatContext";
 import { useContext, useState, useEffect } from "react";
-import { getChatHistory, sendMessage } from "../../services/messages-service";
+import { getChatHistory } from "../../services/messages-service";
 import type { Message } from "../../services/messages-service";
+import { useRealtimeChat } from '../../Hooks/useRealtime'; 
 
 function ChatMessages() {
   const { connectedChat } = useContext(ChatContext);
   const [messages, setMessages] = useState<Message[]>([]);
   const {user}= useContext(LoggedInContext);
   const [newMessageContent, setNewMessageContent] = useState('');
+  const { realtimeMessages, sendChatMessage, setRealtimeMessages } = useRealtimeChat(
+    connectedChat.id ,user.id );
 
   useEffect(() => {
-    if (connectedChat) {
-      const loadHistory = async () => {
+    if (realtimeMessages.length === 0) return;
+
+    setMessages(prevMessages => {
+      return [...prevMessages, ...realtimeMessages]; 
+    });
+
+    setRealtimeMessages([]);
+  }, [realtimeMessages, setRealtimeMessages,]);
+
+  const handleSendMessage = () => {
+    if (!newMessageContent.trim()) return;
+
+    sendChatMessage({
+      chatId: connectedChat.id,
+      senderId: user.id,
+      content: newMessageContent
+    });
+    setNewMessageContent('');
+  };
+
+  useEffect(() => {
+    const loadHistory = async () => {
       try {
         const res = await getChatHistory(connectedChat.id);
         setMessages(res.data);
@@ -24,30 +47,10 @@ function ChatMessages() {
       }
     };
     loadHistory();
-    } else {
-      setMessages([]);
-    }
   }, [connectedChat]);
-  
-    const handleSendMessage = async () => {
-      if (!newMessageContent.trim() || !connectedChat) 
-        return;
-  
-      try {
-        const res = await sendMessage(
-          connectedChat.id,
-          {senderId: user.id, content: newMessageContent}
-        );  
-        setMessages(prevMessages => [...prevMessages, res.data]);
-        setNewMessageContent('');
-      } catch (error) {
-        console.error("Failed to send message:", error);
-        alert("Error sending message.");
-      }
-    };
 
   return (
-    <div>
+    <>
       <div className="messages-container">
         {messages.map((message) => (
           <div 
@@ -73,7 +76,7 @@ function ChatMessages() {
         />
         <button onClick={handleSendMessage} disabled={!newMessageContent.trim()}>send</button>
       </div>
-    </div>
+    </>
   );
 }
 

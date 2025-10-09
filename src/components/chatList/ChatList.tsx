@@ -9,8 +9,9 @@ function ChatList() {
   const { user } = useContext(LoggedInContext);
   const { setConnectedChat } = useContext(ChatContext);
   const [chats, setChats] = useState<Chat[]>([]);
-  const [showCreateGroup, setShowCreateGroup] = useState(false);
-  const [groupName, setGroupName] = useState("");
+  const [showCreateChat, setShowCreateChat] = useState(false);
+  const [chatName, setChatName] = useState("");
+  const [isGroupToCreate, setIsGroupToCreate] = useState<boolean | null>(null);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -24,13 +25,12 @@ function ChatList() {
     fetchChats();
   }, [user]);
 
-  
-  const handleCreateGroup = async () => {
+  const handleCreateChat = async (isGroupChat:boolean) => {
     try {
-      if (!groupName.trim()) return alert("Please enter a group name");
-      await createChat({ name: groupName, userId: user.id, isGroup: true });
-      setShowCreateGroup(false);
-      setGroupName("");
+      if (!chatName.trim()) return alert("Please enter a Chat name");
+      await createChat({ name: chatName, userId: user.id, isGroup: isGroupChat });
+      setShowCreateChat(false);
+      setChatName("");
       const response = await getChatsForUser(user.id);
       setChats(response.data);
     } catch (error) {
@@ -44,19 +44,22 @@ function ChatList() {
 
   return (
     <div className="chatList">
-      <button onClick={() => setShowCreateGroup(!showCreateGroup)}>
+      <button onClick={() => {setShowCreateChat(!showCreateChat); setIsGroupToCreate(true)}}>
         Create Group
       </button>
+      <button onClick={() => {setShowCreateChat(!showCreateChat); setIsGroupToCreate(false)}}>
+        Create Private Chat
+      </button>
 
-      {showCreateGroup && (
-        <div className="create-group-form">
+      {showCreateChat && (
+        <div className="create-Chat-form">
           <input
             type="text"
-            placeholder="Group Name"
-            value={groupName}
-            onChange={(e) => setGroupName(e.target.value)}
+            placeholder="Chat Name"
+            value={chatName}
+            onChange={(e) => setChatName(e.target.value)}
           />
-          <button onClick={handleCreateGroup}>Create</button>
+          <button onClick={() => handleCreateChat(!isGroupToCreate)}>Create</button> 
         </div>
       )}
 
