@@ -11,7 +11,7 @@ function ChatList() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [showCreateChat, setShowCreateChat] = useState(false);
   const [chatName, setChatName] = useState("");
-  const [isGroupToCreate, setIsGroupToCreate] = useState<boolean | null>(null);
+  const [isGroupToCreate, setIsGroupToCreate] = useState<boolean> (true);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -59,7 +59,7 @@ function ChatList() {
             value={chatName}
             onChange={(e) => setChatName(e.target.value)}
           />
-          <button onClick={() => handleCreateChat(!isGroupToCreate)}>Create</button> 
+          <button onClick={() => handleCreateChat(isGroupToCreate)}>Create</button> 
         </div>
       )}
 
