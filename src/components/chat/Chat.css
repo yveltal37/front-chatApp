@@ -27,9 +27,14 @@
   background-color: #0074d9;
   color: white;
   border: none;
-  font-size: 20px;
+  font-size: 30px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
 
 .close-button:hover,
 .add-button:hover {

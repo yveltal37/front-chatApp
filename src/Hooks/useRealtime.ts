@@ -31,7 +31,8 @@ export const useRealtimeChat = (chatId: number | null, senderId: number): Realti
         return;
         }
 
-        const newSocket = io(API_URL);
+        const token = sessionStorage.getItem("accessToken");
+        const newSocket = io(API_URL, { auth: { token } });
         setSocket(newSocket);
         newSocket.emit('joinChat', chatId.toString());
         newSocket.on('newMessage', (message: Message) => {

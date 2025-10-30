@@ -15,9 +15,10 @@ export default function Login() {
     try {
       const res = await login({ username, password });
       console.log("Logged in:", res);
+      sessionStorage.setItem("accessToken", res.tokens.accessToken);
+      sessionStorage.setItem("refreshToken", res.tokens.refreshToken);
       setIsLoggedIn(true);
-      setUser({ id: res.id, name: res.username });
-      console.log("logged in",res.id);
+      setUser({ id: res.user.id, name: res.user.username });
       navigate("/home");
     } catch (err) {
       console.error(err);
@@ -26,6 +27,7 @@ export default function Login() {
 
   return (
     <div className="authPage">
+      <h1 className="authTitle">Login</h1>
       <div className="authCard">
         <form onSubmit={handleSubmit}>
           <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />

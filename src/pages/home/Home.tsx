@@ -1,5 +1,5 @@
-import ChatList from "../../components/chatList/ChatList";
-import Chat from "../../components/chat/Chat";
+import ChatList from "../../components/ChatList/ChatList";
+import Chat from "../../components/Chat/Chat";
 import "./Home.css";
 import { ChatProvider } from "../../Hooks/ChatContext";
 

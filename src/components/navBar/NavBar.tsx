@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { LoggedInContext } from "../../Hooks/IsLogin";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
@@ -6,9 +6,17 @@ import "./NavBar.css";
 function NavBar(){
   const {isLoggedIn, setIsLoggedIn, setUser} = useContext(LoggedInContext);
 
+  useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+    setIsLoggedIn(!!token);
+  }, []);
+
   const handleLogout = () => {
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
     setIsLoggedIn(false);
     setUser(null);
+    console.log("user logged out");
   };
 
   return (

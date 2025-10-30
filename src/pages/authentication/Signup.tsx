@@ -15,10 +15,12 @@ export default function Signup() {
     e.preventDefault();
     try {
       const res = await signup({ username, email, password });
-      console.log("Signed up:", { username: username, email:email, password:password });
+      console.log("Signed up:", res);
+      sessionStorage.setItem("accessToken", res.tokens.accessToken);
+      sessionStorage.setItem("refreshToken", res.tokens.refreshToken);
       setIsLoggedIn(true);
-      setUser({ id: res.id, name: res.username });
-      console.log("Signed up:", res.id);
+      setUser({ id: res.user.id, name: res.user.username });
+      console.log("Signed up:", res.user.id);
       navigate("/home");
     } catch (err) {
       console.error(err);
@@ -27,6 +29,7 @@ export default function Signup() {
 
   return (
     <div className="authPage">
+      <h1 className="authTitle">SignUp</h1>
       <div className="authCard">
         <form onSubmit={handleSubmit}>
           <input placeholder="Usernme" value={username} onChange={e => setUsername(e.target.value)} />

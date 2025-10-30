@@ -1,0 +1,15 @@
+.my-message {
+  align-self: flex-start;
+  background-color: #0074d9;
+  border-bottom-left-radius: 0;
+}
+
+.other-message {
+  align-self: flex-end;
+  background-color: #222;
+  border-bottom-right-radius: 0;
+}
+
+.message strong {
+  display: block;
+}

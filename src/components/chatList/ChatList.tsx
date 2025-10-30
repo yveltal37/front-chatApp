@@ -4,76 +4,56 @@ import {  getChatsForUser, createChat  } from "../../services/chats-service";
 import type { Chat } from "../../services/chats-service";
 import "./ChatList.css";
 import { ChatContext } from "../../Hooks/ChatContext";
+import ChatItem from "../ChatItem/ChatItem";
+import CreateChatForm from "../CreateChatForm/CreateChatForm";
 
 function ChatList() {
-  const { user } = useContext(LoggedInContext);
+  const { user, isLoggedIn } = useContext(LoggedInContext);
   const { setConnectedChat } = useContext(ChatContext);
   const [chats, setChats] = useState<Chat[]>([]);
-  const [showCreateChat, setShowCreateChat] = useState(false);
-  const [chatName, setChatName] = useState("");
-  const [isGroupToCreate, setIsGroupToCreate] = useState<boolean> (true);
+
+  const fetchChats = async () => {
+    try {
+      const res = await getChatsForUser();
+      setChats(res || []);
+    } catch (error) {
+      console.error("Error fetching chats:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const response = await getChatsForUser(user.id);
-        setChats(response.data);
-      } catch (error) {
-        console.error("Error fetching chats:", error);
-      }
-    };
-    fetchChats();
+    if(isLoggedIn){
+      fetchChats();
+    }
   }, [user]);
 
-  const handleCreateChat = async (isGroupChat:boolean) => {
-    try {
-      if (!chatName.trim()) return alert("Please enter a Chat name");
-      await createChat({ name: chatName, userId: user.id, isGroup: isGroupChat });
-      setShowCreateChat(false);
-      setChatName("");
-      const response = await getChatsForUser(user.id);
-      setChats(response.data);
-    } catch (error) {
-      console.error("Error creating group:", error);
-    }
+  const handleCreateChat = async (chatName: string, isGroupChat: boolean) => {
+    await createChat(chatName, isGroupChat);
+    await fetchChats();
   };
 
   const handleChatClick = (chat: { id: number; name: string }) => {
     setConnectedChat(chat);
   };
 
+  const handleLeaveChat = (chatId: number) => {
+    setChats((prev) => prev.filter((chat) => chat.id !== chatId));
+  };
+
   return (
+
     <div className="chatList">
-      <button onClick={() => {setShowCreateChat(!showCreateChat); setIsGroupToCreate(true)}}>
-        Create Group
-      </button>
-      <button onClick={() => {setShowCreateChat(!showCreateChat); setIsGroupToCreate(false)}}>
-        Create Private Chat
-      </button>
+      <CreateChatForm onCreate={handleCreateChat} />
 
-      {showCreateChat && (
-        <div className="create-Chat-form">
-          <input
-            type="text"
-            placeholder="Chat Name"
-            value={chatName}
-            onChange={(e) => setChatName(e.target.value)}
-          />
-          <button onClick={() => handleCreateChat(isGroupToCreate)}>Create</button> 
-        </div>
-      )}
-
-      <ul>
+      <div className="chat-list-items">
         {chats.length > 0 ? (
-          chats.map(chat => (
-            <li key={chat.id} onClick={() => handleChatClick({id: chat.id, name: chat.name})}>
-              {chat.isGroup ? "Group: " : "Private: "} {chat.name}
-            </li>
+          chats.map((chat) => (
+            <ChatItem key={chat.id} chat={chat} onClick={handleChatClick} onLeave={handleLeaveChat} />
           ))
         ) : (
-          <li>No chats found</li>
+          <p>No chats found</p>
         )}
-      </ul>
+      </div>
     </div>
   );
 }

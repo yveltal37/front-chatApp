@@ -17,7 +17,7 @@ function Chat() {
       alert("enter user name to add.");
       return;
     }
-        
+
     try {
       await addUser(connectedChat.id, userToAdd); 
       alert(` ${userToAdd} is added!`);
@@ -39,6 +39,7 @@ function Chat() {
         onClick={() => setShowAddUserForm(!showAddUserForm)} >
         {showAddUserForm ? '-' : '+'}
       </button>
+      <p></p>
       {showAddUserForm && (
         <div className="add-user-form">
           <input 

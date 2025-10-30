@@ -1,0 +1,41 @@
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #001f3f;
+  border-bottom: 2px solid #fff;
+  border-radius: 5px 5px 0 0;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.chat-item:hover {
+  background-color: #002b5c;
+}
+
+.chat-item-type {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-right: 8px;
+}
+
+.chat-item-chatname {
+  font-weight: bold;
+  margin: 0;
+}
+
+.chat-leave-button {
+  padding: 0;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.rubbish {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  object-fit: contain;
+}

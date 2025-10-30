@@ -1,10 +1,11 @@
 import "./ChatMessages.css";
 import { LoggedInContext } from "../../Hooks/IsLogin";
 import { ChatContext } from "../../Hooks/ChatContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { getChatHistory } from "../../services/messages-service";
 import type { Message } from "../../services/messages-service";
-import { useRealtimeChat } from '../../Hooks/useRealtime'; 
+import { useRealtimeChat } from '../../Hooks/UseRealtime'; 
+import MessageItem from "../MessageItem/MessageItem";
 
 function ChatMessages() {
   const { connectedChat } = useContext(ChatContext);
@@ -13,6 +14,8 @@ function ChatMessages() {
   const [newMessageContent, setNewMessageContent] = useState('');
   const { realtimeMessages, sendChatMessage, setRealtimeMessages } = useRealtimeChat(
     connectedChat.id ,user.id );
+  const bottomRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     if (realtimeMessages.length === 0) return;
@@ -39,7 +42,7 @@ function ChatMessages() {
     const loadHistory = async () => {
       try {
         const res = await getChatHistory(connectedChat.id);
-        setMessages(res.data);
+        setMessages(res);
         
       } catch (error) {
         console.error("Failed to load chat history:", error);
@@ -49,18 +52,17 @@ function ChatMessages() {
     loadHistory();
   }, [connectedChat]);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <>
       <div className="messages-container">
         {messages.map((message) => (
-          <div 
-            key={message.id} 
-            className={`message ${message.sender.id === user.id ? 'my-message' : 'other-message'}`}
-          >
-            <strong>{message.sender.id === user.id ? 'you' : message.sender.username}:</strong>
-            <span>{message.content}</span>
-          </div>
+          <MessageItem key={message.id} message={message} />
         ))}
+        <div ref={bottomRef} />
       </div>
       <div className="message-input-form">
         <input
