@@ -54,7 +54,7 @@ export const createChat = async (name: string, isGroup: boolean ) => {
 
 export const addUser = async (chatId: number, username: string) => {
   const accessToken = sessionStorage.getItem("accessToken");
-  return api.patch(`${API_URL}/${chatId}/user`,
+  return api.patch(`${API_URL}/${chatId}`,
     { username },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
